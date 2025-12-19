@@ -81,236 +81,190 @@ function ProductDetails() {
   }
 
   return (
-    <Box sx={{ bgcolor: '#fafafa', minHeight: '100vh' }}>
-      <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3, md: 4 } }}>
+    <Box sx={{ bgcolor: '#f5f5f5', minHeight: '100vh', py: { xs: 2, md: 4 } }}>
+      <Container maxWidth="lg">
         <Button
           variant="text"
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/')}
-          sx={{ mb: { xs: 2, md: 3 }, color: '#666' }}
+          sx={{ mb: 2, color: '#666', '&:hover': { bgcolor: 'transparent' } }}
         >
           Back to Products
         </Button>
 
-        <Paper elevation={2} sx={{ overflow: 'hidden' }}>
-          <Grid container>
-            <Grid item xs={12} md={5} lg={6}>
-              <Box sx={{
-                p: { xs: 2, sm: 3, md: 4 },
-                bgcolor: '#fff',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: { xs: '300px', md: '500px' }
-              }}>
-                <img
-                  src={product.image || 'https://via.placeholder.com/600'}
-                  alt={product.name}
-                  style={{
-                    width: '100%',
-                    maxWidth: '600px',
-                    height: 'auto',
-                    maxHeight: '500px',
-                    objectFit: 'contain',
-                    borderRadius: '12px'
-                  }}
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/600';
-                  }}
+        <Box sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', lg: 'row' },
+          gap: { xs: 2, md: 3 },
+          bgcolor: '#fff',
+          borderRadius: 2,
+          overflow: 'hidden',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{
+            flex: { xs: '1', lg: '0 0 45%' },
+            p: { xs: 3, md: 4 },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bgcolor: '#fafafa',
+            borderRight: { xs: 'none', lg: '1px solid #e0e0e0' }
+          }}>
+            <img
+              src={product.image || 'https://via.placeholder.com/500'}
+              alt={product.name}
+              style={{
+                width: '100%',
+                maxWidth: '500px',
+                height: 'auto',
+                objectFit: 'contain'
+              }}
+              onError={(e) => {
+                e.target.src = 'https://via.placeholder.com/500';
+              }}
+            />
+          </Box>
+
+          <Box sx={{
+            flex: 1,
+            p: { xs: 3, md: 4 }
+          }}>
+            <Typography variant="h4" sx={{
+              fontWeight: 600,
+              mb: 1,
+              fontSize: { xs: '1.5rem', md: '2rem' }
+            }}>
+              {product.name}
+            </Typography>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+              <Rating value={4.5} precision={0.5} readOnly size="small" />
+              <Typography variant="body2" color="text.secondary">
+                4.5 (2,345 reviews)
+              </Typography>
+            </Box>
+
+            {product.category && (
+              <Chip
+                label={product.category}
+                size="small"
+                sx={{ mb: 2 }}
+              />
+            )}
+
+            <Divider sx={{ my: 2 }} />
+
+            <Typography variant="h3" color="error.main" sx={{
+              fontWeight: 700,
+              mb: 0.5,
+              fontSize: { xs: '1.75rem', md: '2.5rem' }
+            }}>
+              ${product.price?.toFixed(2) || '0.00'}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Inclusive of all taxes
+            </Typography>
+
+            {product.stock !== undefined && (
+              <Box sx={{ mb: 3 }}>
+                <Chip
+                  icon={product.stock > 0 ? <VerifiedIcon /> : undefined}
+                  label={product.stock > 0 ? `In Stock (${product.stock} units)` : 'Out of Stock'}
+                  color={product.stock > 0 ? 'success' : 'error'}
+                  variant="outlined"
                 />
               </Box>
-            </Grid>
+            )}
 
-            <Grid item xs={12} md={7} lg={6}>
-              <Box sx={{
-                p: { xs: 2, sm: 3, md: 4, lg: 5 },
-                bgcolor: '#fff',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column'
-              }}>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    fontWeight: 700,
-                    mb: 2,
-                    fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem', lg: '2.125rem' },
-                    lineHeight: 1.3
-                  }}
-                >
-                  {product.name}
-                </Typography>
+            <Box sx={{
+              display: 'flex',
+              gap: 2,
+              mb: 3,
+              flexDirection: { xs: 'column', sm: 'row' }
+            }}>
+              <Button
+                variant="contained"
+                size="large"
+                startIcon={<ShoppingCartIcon />}
+                sx={{
+                  bgcolor: '#ff9f00',
+                  '&:hover': { bgcolor: '#e68f00' },
+                  flex: { sm: 1 },
+                  py: 1.5
+                }}
+              >
+                Add to Cart
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                startIcon={<FavoriteIcon />}
+                color="error"
+                sx={{
+                  py: 1.5,
+                  minWidth: { sm: '140px' }
+                }}
+              >
+                Wishlist
+              </Button>
+            </Box>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Rating value={4.5} precision={0.5} readOnly size="small" />
-                    <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                      4.5
-                    </Typography>
-                  </Box>
-                  <Typography variant="body2" color="text.secondary">
-                    2,345 reviews
-                  </Typography>
-                  {product.category && (
-                    <Chip
-                      label={product.category}
-                      color="primary"
-                      size="small"
-                    />
-                  )}
-                </Box>
+            <Divider sx={{ my: 3 }} />
 
-                <Divider sx={{ my: 2 }} />
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+              Product Description
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{
+              mb: 3,
+              lineHeight: 1.7
+            }}>
+              {product.description || 'No description available.'}
+            </Typography>
 
-                <Box sx={{ mb: 3 }}>
-                  <Typography
-                    variant="h3"
-                    color="primary"
-                    sx={{
-                      fontWeight: 800,
-                      mb: 0.5,
-                      fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' }
-                    }}
-                  >
-                    ${product.price?.toFixed(2) || '0.00'}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Inclusive of all taxes
-                  </Typography>
-                </Box>
-
-                {product.stock !== undefined && (
-                  <Box sx={{ mb: 3 }}>
-                    <Chip
-                      icon={product.stock > 0 ? <VerifiedIcon /> : undefined}
-                      label={product.stock > 0 ? `In Stock (${product.stock} available)` : 'Out of Stock'}
-                      color={product.stock > 0 ? 'success' : 'error'}
-                      sx={{ fontWeight: 500, px: 1 }}
-                    />
+            <Box sx={{
+              bgcolor: '#f8f8f8',
+              p: 2,
+              borderRadius: 1,
+              mb: 3
+            }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1.5 }}>
+                Product Details
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                {product.brand && (
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography variant="body2" color="text.secondary">Brand</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 500 }}>{product.brand}</Typography>
                   </Box>
                 )}
-
-                <Box sx={{
-                  display: 'flex',
-                  gap: 2,
-                  mb: 4,
-                  flexDirection: { xs: 'column', sm: 'row' }
-                }}>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    startIcon={<ShoppingCartIcon />}
-                    sx={{
-                      bgcolor: '#ff9800',
-                      '&:hover': { bgcolor: '#f57c00' },
-                      flex: 1,
-                      py: 1.5,
-                      fontSize: { xs: '0.875rem', md: '1rem' }
-                    }}
-                  >
-                    Add to Cart
-                  </Button>
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <IconButton
-                      color="error"
-                      size="large"
-                      sx={{ border: '2px solid #e0e0e0' }}
-                    >
-                      <FavoriteIcon />
-                    </IconButton>
-                    <IconButton
-                      size="large"
-                      sx={{ border: '2px solid #e0e0e0' }}
-                    >
-                      <ShareIcon />
-                    </IconButton>
-                  </Box>
-                </Box>
-
-                <Divider sx={{ my: 3 }} />
-
-                <Box sx={{ mb: 3 }}>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: 600,
-                      mb: 1.5,
-                      fontSize: { xs: '1.125rem', md: '1.25rem' }
-                    }}
-                  >
-                    Product Description
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    sx={{
-                      lineHeight: 1.8,
-                      fontSize: { xs: '0.875rem', md: '1rem' }
-                    }}
-                  >
-                    {product.description || 'No description available.'}
-                  </Typography>
-                </Box>
-
-                <Box sx={{
-                  display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                  gap: 2,
-                  mb: 3
-                }}>
-                  <Card variant="outlined">
-                    <CardContent>
-                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, fontSize: '1rem' }}>
-                        Product Details
-                      </Typography>
-                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                        {product.brand && (
-                          <Box>
-                            <Typography variant="caption" color="text.secondary" display="block">
-                              Brand
-                            </Typography>
-                            <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                              {product.brand}
-                            </Typography>
-                          </Box>
-                        )}
-                        <Box>
-                          <Typography variant="caption" color="text.secondary" display="block">
-                            Category
-                          </Typography>
-                          <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                            {product.category || 'N/A'}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </CardContent>
-                  </Card>
-
-                  <Card variant="outlined" sx={{ bgcolor: '#f0f7ff' }}>
-                    <CardContent>
-                      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                        <LocalShippingIcon
-                          color="primary"
-                          sx={{ fontSize: '2rem', mt: 0.5 }}
-                        />
-                        <Box>
-                          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1rem', mb: 0.5 }}>
-                            Free Delivery
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            Estimated delivery: 3-5 business days
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </CardContent>
-                  </Card>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Typography variant="body2" color="text.secondary">Category</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 500 }}>{product.category || 'N/A'}</Typography>
                 </Box>
               </Box>
-            </Grid>
-          </Grid>
-        </Paper>
+            </Box>
+
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2,
+              p: 2,
+              bgcolor: '#e8f5e9',
+              borderRadius: 1,
+              border: '1px solid #c8e6c9'
+            }}>
+              <LocalShippingIcon color="success" sx={{ fontSize: 32 }} />
+              <Box>
+                <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                  Free Delivery
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Estimated delivery: 3-5 business days
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );
