@@ -144,63 +144,114 @@ function ProductList() {
   }
 
   return (
-    <Container maxWidth="xl" className="py-8">
-      <Typography variant="h4" className="mb-6 font-bold">
-        Product Catalog
-      </Typography>
-
-      {/* Filters */}
-      <Paper elevation={2} className="p-4 mb-6">
-        <Box className="flex flex-col md:flex-row gap-4">
-          <TextField
-            label="Search by product name"
-            variant="outlined"
-            fullWidth
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="md:w-1/2"
-          />
-          <FormControl fullWidth className="md:w-1/2">
-            <InputLabel>Filter by Category</InputLabel>
-            <Select
-              value={categoryFilter}
-              label="Filter by Category"
-              onChange={(e) => setCategoryFilter(e.target.value)}
-            >
-              <MenuItem value="">All Categories</MenuItem>
-              {categories.map((category) => (
-                <MenuItem key={category} value={category}>
-                  {category}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+    <Box sx={{ bgcolor: '#fafafa', minHeight: '100vh', py: 3 }}>
+      <Container maxWidth="xl">
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h4" sx={{
+            fontWeight: 600,
+            mb: 0.5,
+            fontSize: { xs: '1.5rem', md: '2rem' },
+            color: '#212121'
+          }}>
+            Product Catalog
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Browse and search products
+          </Typography>
         </Box>
-      </Paper>
 
-      {/* DataGrid */}
-      <Paper elevation={2} style={{ height: 600, width: '100%' }}>
-        <DataGrid
-          rows={getFilteredAndSortedProducts()}
-          columns={columns}
-          loading={loading}
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          pageSizeOptions={[5, 10, 25, 50]}
-          paginationMode="server"
-          rowCount={rowCount}
-          sortModel={sortModel}
-          onSortModelChange={setSortModel}
-          onRowClick={handleRowClick}
-          disableRowSelectionOnClick
-          sx={{
-            '& .MuiDataGrid-row:hover': {
-              cursor: 'pointer',
-            },
-          }}
-        />
-      </Paper>
-    </Container>
+        <Paper elevation={1} sx={{ p: 2, mb: 2.5, borderRadius: 1 }}>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: 2
+          }}>
+            <TextField
+              label="Search products"
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              sx={{ flex: 1 }}
+            />
+            <FormControl fullWidth size="small" sx={{ flex: 1 }}>
+              <InputLabel>Category</InputLabel>
+              <Select
+                value={categoryFilter}
+                label="Category"
+                onChange={(e) => setCategoryFilter(e.target.value)}
+              >
+                <MenuItem value="">All Categories</MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category} value={category}>
+                    {category}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        </Paper>
+
+        <Paper elevation={1} sx={{
+          height: 600,
+          width: '100%',
+          borderRadius: 1,
+          overflow: 'hidden'
+        }}>
+          <DataGrid
+            rows={getFilteredAndSortedProducts()}
+            columns={columns}
+            loading={loading}
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
+            pageSizeOptions={[5, 10, 25, 50]}
+            paginationMode="server"
+            rowCount={rowCount}
+            sortModel={sortModel}
+            onSortModelChange={setSortModel}
+            onRowClick={handleRowClick}
+            disableRowSelectionOnClick
+            rowHeight={90}
+            sx={{
+              border: 'none',
+              '& .MuiDataGrid-row': {
+                cursor: 'pointer',
+                '&:hover': {
+                  bgcolor: '#f5f5f5'
+                }
+              },
+              '& .MuiDataGrid-cell': {
+                borderBottom: '1px solid #e0e0e0',
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '0.875rem'
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                bgcolor: '#f5f5f5',
+                borderBottom: '2px solid #e0e0e0',
+                '& .MuiDataGrid-columnHeaderTitle': {
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  color: '#424242'
+                },
+                '& .MuiDataGrid-columnSeparator': {
+                  display: 'none'
+                }
+              },
+              '& .MuiDataGrid-footerContainer': {
+                bgcolor: '#fafafa',
+                borderTop: '1px solid #e0e0e0',
+                minHeight: '52px'
+              },
+              '& .MuiTablePagination-root': {
+                color: '#424242'
+              }
+            }}
+          />
+        </Paper>
+      </Container>
+    </Box>
   );
 }
 

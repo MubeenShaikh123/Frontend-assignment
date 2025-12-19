@@ -81,7 +81,7 @@ function ProductDetails() {
   }
 
   return (
-    <Box sx={{ bgcolor: '#f5f5f5', minHeight: '100vh', py: { xs: 2, md: 4 } }}>
+    <Box sx={{ bgcolor: '#fafafa', minHeight: '100vh', py: { xs: 2, md: 4 } }}>
       <Container maxWidth="lg">
         <Button
           variant="text"
