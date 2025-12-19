@@ -23,6 +23,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { fetchProductById } from '../utils/api';
+import { toast } from 'react-toastify';
 
 function ProductDetails() {
   const { id } = useParams();
@@ -186,13 +187,14 @@ function ProductDetails() {
                 variant="contained"
                 size="large"
                 startIcon={<ShoppingCartIcon />}
+                onClick={() => toast.success('Feature not yet implemented')}
                 sx={{
                   bgcolor: '#ff9f00',
                   '&:hover': { bgcolor: '#e68f00' },
                   flex: { sm: 1 },
                   py: 1.5
                 }}
-              >
+                >
                 Add to Cart
               </Button>
               <Button
@@ -200,6 +202,7 @@ function ProductDetails() {
                 size="large"
                 startIcon={<FavoriteIcon />}
                 color="error"
+                onClick={() => toast.success('Feature not yet implemented')}
                 sx={{
                   py: 1.5,
                   minWidth: { sm: '140px' }
